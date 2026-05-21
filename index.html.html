@@ -1,0 +1,1596 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>New POS Software OISHI & FOA - Project Timeline</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #182033;
+      --muted: #647084;
+      --line: #d8dfec;
+      --panel: #ffffff;
+      --bg: #eef3fb;
+      --done: #26915f;
+      --active: #168bb5;
+      --future: #7b879a;
+      --today: #e11d48;
+      --hero: #5146b6;
+      --purple: #7048c9;
+      --green: #77c56b;
+      --yellow: #ffe86a;
+      --blue: #9fc7ff;
+      --cyan: #9ee7ef;
+      --pink: #ffc8d2;
+      --shadow: 0 16px 42px rgba(31, 45, 70, .12);
+      --week-width: 54px;
+      --label-width: 250px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(255, 232, 106, .28), transparent 28%),
+        radial-gradient(circle at 84% 8%, rgba(159, 199, 255, .36), transparent 30%),
+        var(--bg);
+      font-family: "Noto Sans Thai", Arial, Tahoma, sans-serif;
+      line-height: 1.45;
+    }
+
+    .shell {
+      width: min(1360px, calc(100% - 32px));
+      margin: 26px auto 40px;
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 240px;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0 0 4px;
+      font-size: clamp(26px, 2.4vw, 34px);
+      font-weight: 800;
+      letter-spacing: 0;
+      line-height: 1.15;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .controls {
+      display: grid;
+      gap: 7px;
+    }
+
+    .control-actions {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .controls label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .controls input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 14px;
+      padding: 10px 12px;
+      box-shadow: 0 1px 0 rgba(20, 32, 54, .05);
+    }
+
+    .export-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      border: 0;
+      border-radius: 8px;
+      background: #5146b6;
+      color: #fff;
+      cursor: pointer;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 0 12px;
+      white-space: nowrap;
+      box-shadow: 0 10px 24px rgba(81, 70, 182, .18);
+    }
+
+    .export-button:hover {
+      background: #4338a6;
+    }
+
+    .status-card {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .project-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 260px;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 16px;
+      border: 1px solid rgba(216, 223, 236, .95);
+      border-radius: 12px;
+      background:
+        linear-gradient(135deg, rgba(81, 70, 182, .96), rgba(22, 139, 181, .94)),
+        #5146b6;
+      box-shadow: var(--shadow);
+      color: #fff;
+      padding: 22px 24px;
+    }
+
+    .project-hero h2 {
+      margin: 0;
+      font-size: clamp(24px, 3vw, 42px);
+      font-weight: 800;
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .project-hero p {
+      margin: 8px 0 0;
+      max-width: 760px;
+      color: rgba(255, 255, 255, .82);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .hero-bullets {
+      display: grid;
+      gap: 3px;
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: rgba(255, 255, 255, .86);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .hero-meter {
+      display: grid;
+      gap: 10px;
+      justify-items: end;
+    }
+
+    .hero-percent {
+      font-size: clamp(46px, 6vw, 74px);
+      font-weight: 800;
+      line-height: .95;
+    }
+
+    .hero-label {
+      color: rgba(255, 255, 255, .84);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .hero-track {
+      width: min(100%, 240px);
+      height: 12px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .22);
+    }
+
+    .hero-fill {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #7ce0cc, #ffe86a);
+      transition: width .35s ease;
+    }
+
+    .hero-meta {
+      color: rgba(255, 255, 255, .86);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .dashboard-snapshot {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) 1.1fr 1.35fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .metric-card,
+    .track-card,
+    .milestone-card,
+    .type-legend {
+      background: rgba(255, 255, 255, .96);
+      border: 1px solid rgba(216, 223, 236, .95);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+
+    .metric-label,
+    .section-label {
+      margin: 0 0 6px;
+      color: var(--muted);
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .metric-value {
+      margin: 0;
+      color: var(--ink);
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .metric-note {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+      line-height: 1.3;
+    }
+
+    .track-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 7px 11px;
+      color: #fff;
+      background: var(--done);
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .track-pill.at-risk {
+      background: #dc3d78;
+    }
+
+    .track-pill::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #fff;
+    }
+
+    .milestone-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .milestone-list li {
+      display: grid;
+      grid-template-columns: 74px 1fr;
+      gap: 8px;
+      align-items: start;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .milestone-date {
+      color: var(--active);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .type-legend {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px 12px;
+      margin-bottom: 14px;
+      box-shadow: none;
+    }
+
+    .type-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+      color: var(--muted);
+      font-size: 11.5px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .swatch {
+      flex: 0 0 auto;
+      width: 22px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--swatch);
+      border: 1px solid rgba(24, 32, 51, .12);
+    }
+
+    .status-main,
+    .status-next,
+    .summary-panel,
+    .timeline-card {
+      background: rgba(255, 255, 255, .96);
+      border: 1px solid rgba(216, 223, 236, .95);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    .status-main,
+    .status-next {
+      padding: 18px;
+    }
+
+    .eyebrow {
+      margin: 0 0 7px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .stage-name {
+      max-width: 100%;
+      margin: 0;
+      font-size: clamp(21px, 2vw, 28px);
+      font-weight: 800;
+      letter-spacing: 0;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+
+    .stage-range,
+    .next-copy {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .current-state-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      max-width: 100%;
+      margin-top: 12px;
+      border-radius: 999px;
+      padding: 7px 14px;
+      color: #fff;
+      background: var(--active);
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.2;
+      animation: pulseActive 1.2s ease-in-out infinite;
+    }
+
+    .current-state-pill.done { background: var(--done); }
+    .current-state-pill.future { background: var(--future); animation: none; }
+
+    .current-state-pill::before {
+      content: "";
+      flex: 0 0 auto;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #fff;
+    }
+
+    .progress-wrap {
+      display: grid;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .progress-track,
+    .summary-track {
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e7edf7;
+    }
+
+    .progress-track {
+      height: 12px;
+    }
+
+    .progress-fill {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #168bb5, #7ce0cc);
+      transition: width .35s ease;
+    }
+
+    .next-name {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+    }
+
+    .summary-panel {
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .summary-heading {
+      display: flex;
+      gap: 12px;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 15px 18px 11px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .summary-heading h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .summary-heading p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .summary-scroll {
+      overflow-x: auto;
+    }
+
+    .summary-table {
+      width: 100%;
+      min-width: 900px;
+      border-collapse: collapse;
+      font-size: 12.5px;
+    }
+
+    .summary-table th,
+    .summary-table td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .summary-table th {
+      color: var(--muted);
+      background: #f7f9fd;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .summary-table tr.is-active {
+      background: #eef9ff;
+      box-shadow: inset 5px 0 0 var(--active);
+    }
+
+    .summary-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .summary-title {
+      display: block;
+      max-width: 330px;
+      font-weight: 800;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+
+    .summary-state {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 94px;
+      border-radius: 999px;
+      padding: 4px 10px;
+      color: #fff;
+      font-size: 11.5px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .summary-state.done { background: var(--done); }
+    .summary-state.active { background: var(--active); animation: pulseActive 1.2s ease-in-out infinite; }
+    .summary-state.future { background: var(--future); }
+
+    .summary-progress {
+      display: grid;
+      grid-template-columns: minmax(160px, 1fr) 54px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .summary-track {
+      height: 10px;
+    }
+
+    .summary-fill {
+      width: var(--percent, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: var(--future);
+    }
+
+    .summary-fill.done { background: var(--done); }
+    .summary-fill.active { background: var(--active); }
+
+    .summary-value {
+      color: var(--muted);
+      font-weight: 800;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .timeline-card {
+      overflow: hidden;
+    }
+
+    .timeline-toolbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(90deg, #fff, #f8fbff);
+    }
+
+    .timeline-toolbar h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .timeline-toolbar p {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .today-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 7px 12px;
+      color: #fff;
+      background: var(--today);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      box-shadow: 0 10px 24px rgba(225, 29, 72, .2);
+    }
+
+    .timeline-scroll {
+      overflow-x: auto;
+    }
+
+    .gantt {
+      position: relative;
+      min-width: calc(var(--label-width) + (44 * var(--week-width)));
+      background: #fff;
+    }
+
+    .gantt-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: var(--label-width) repeat(44, var(--week-width));
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .corner {
+      grid-row: 1 / span 2;
+      display: flex;
+      align-items: center;
+      padding: 10px 12px;
+      color: #fff;
+      background: linear-gradient(135deg, #5936bb, #168bb5);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .month-cell {
+      padding: 7px 8px;
+      color: #fff;
+      background: #7048c9;
+      border-left: 1px solid rgba(255, 255, 255, .28);
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .month-cell:nth-child(4n + 2) {
+      background: #168bb5;
+    }
+
+    .week-cell {
+      grid-row: 2;
+      padding: 6px 4px;
+      border-left: 1px solid var(--line);
+      background: #f9fbff;
+      color: var(--muted);
+      text-align: center;
+      font-size: 10.5px;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .gantt-body {
+      position: relative;
+    }
+
+    .today-line {
+      position: absolute;
+      z-index: 8;
+      top: 0;
+      bottom: 0;
+      left: var(--today-left, -9999px);
+      width: 0;
+      border-left: 3px solid var(--today);
+      pointer-events: none;
+    }
+
+    .today-line::before {
+      content: attr(data-label);
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      min-width: 96px;
+      border-radius: 999px;
+      padding: 4px 8px;
+      color: #fff;
+      background: var(--today);
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+      box-shadow: 0 8px 18px rgba(225, 29, 72, .2);
+      animation: blinkMarker 1s step-end infinite;
+    }
+
+    .gantt-row {
+      display: grid;
+      grid-template-columns: var(--label-width) repeat(44, var(--week-width));
+      min-height: 62px;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(90deg, transparent calc(var(--week-width) - 1px), rgba(216, 223, 236, .9) 0) var(--label-width) 0 / var(--week-width) 100%,
+        linear-gradient(90deg, rgba(112, 72, 201, .055), rgba(22, 139, 181, .035));
+    }
+
+    .gantt-row:nth-child(even) {
+      background:
+        linear-gradient(90deg, transparent calc(var(--week-width) - 1px), rgba(216, 223, 236, .9) 0) var(--label-width) 0 / var(--week-width) 100%,
+        #fbfdff;
+    }
+
+    .row-label {
+      position: sticky;
+      left: 0;
+      z-index: 6;
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      border-right: 1px solid var(--line);
+      background: rgba(255, 255, 255, .96);
+      padding: 10px 12px;
+      font-size: 12.5px;
+      font-weight: 800;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+
+    .row-label.active {
+      color: #9a4a0c;
+      background: #eef9ff;
+    }
+
+    .bar {
+      grid-row: var(--lane, 1);
+      grid-column: var(--start) / var(--end);
+      align-self: center;
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      min-height: 32px;
+      margin: 5px 3px;
+      border-radius: 7px;
+      border: 1px solid rgba(24, 32, 51, .12);
+      color: #142033;
+      background: var(--bar-color, var(--blue));
+      padding: 6px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.18;
+      overflow: hidden;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      box-shadow: 0 8px 18px rgba(31, 45, 70, .12);
+    }
+
+    .bar-text {
+      display: -webkit-box;
+      max-width: 100%;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+
+    .bar.stage {
+      color: #fff;
+      background: var(--stage-color, var(--purple));
+      font-size: 12px;
+      font-weight: 800;
+      box-shadow: 0 10px 22px rgba(112, 72, 201, .22);
+    }
+
+    .bar.active {
+      outline: 3px solid rgba(22, 139, 181, .38);
+      box-shadow: 0 0 0 4px rgba(22, 139, 181, .12), 0 10px 22px rgba(22, 139, 181, .18);
+      animation: pulseBar 1.2s ease-in-out infinite;
+    }
+
+    .bar.done {
+      filter: saturate(.96);
+    }
+
+    .bar.future {
+      opacity: .82;
+    }
+
+    .now-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-left: 6px;
+      border-radius: 999px;
+      padding: 2px 7px;
+      color: #fff;
+      background: var(--today);
+      font-size: 10px;
+      font-weight: 800;
+      white-space: nowrap;
+      animation: blinkMarker 1s step-end infinite;
+    }
+
+    .now-tag::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #fff;
+    }
+
+    .footer {
+      padding: 12px;
+      color: #fff;
+      background: #07090d;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    @keyframes pulseActive {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(22, 139, 181, .38); }
+      50% { box-shadow: 0 0 0 8px rgba(22, 139, 181, .12); }
+    }
+
+    @keyframes pulseBar {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.12); }
+    }
+
+    @keyframes blinkMarker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .32; }
+    }
+
+    @media (max-width: 760px) {
+      .shell {
+        width: min(100% - 20px, 1360px);
+        margin-top: 16px;
+      }
+
+      .topbar,
+      .project-hero,
+      .dashboard-snapshot,
+      .type-legend,
+      .status-card,
+      .summary-heading,
+      .timeline-toolbar {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      :root {
+        --label-width: 210px;
+        --week-width: 50px;
+      }
+
+      .control-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @page {
+      size: A3 landscape;
+      margin: 8mm;
+    }
+
+    @media print {
+      :root {
+        --label-width: 190px;
+        --week-width: 22px;
+      }
+
+      body {
+        background: #fff;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .shell {
+        width: 100%;
+        margin: 0;
+      }
+
+      .controls,
+      .summary-panel,
+      .legend,
+      .type-legend {
+        display: none;
+      }
+
+      .topbar,
+      .project-hero,
+      .dashboard-snapshot,
+      .status-card,
+      .timeline-card {
+        break-inside: avoid;
+        box-shadow: none;
+      }
+
+      .project-hero {
+        grid-template-columns: 1fr 200px;
+        padding: 14px 16px;
+      }
+
+      .project-hero h2 {
+        font-size: 28px;
+      }
+
+      .hero-percent {
+        font-size: 46px;
+      }
+
+      .status-card {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .dashboard-snapshot {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 6px;
+      }
+
+      .metric-card,
+      .track-card,
+      .milestone-card {
+        padding: 8px;
+        box-shadow: none;
+      }
+
+      .metric-value {
+        font-size: 18px;
+      }
+
+      .metric-note,
+      .milestone-list li {
+        font-size: 7.5px;
+      }
+
+      .timeline-scroll {
+        overflow: visible;
+      }
+
+      .gantt {
+        min-width: calc(var(--label-width) + (44 * var(--week-width)));
+      }
+
+      .gantt-header,
+      .gantt-row {
+        grid-template-columns: var(--label-width) repeat(44, var(--week-width));
+      }
+
+      .bar {
+        font-size: 7px;
+        min-height: 22px;
+        margin: 3px 1px;
+        padding: 3px 4px;
+        box-shadow: none;
+      }
+
+      .bar.stage {
+        font-size: 7.5px;
+      }
+
+      .row-label {
+        font-size: 8px;
+        padding: 6px;
+      }
+
+      .month-cell,
+      .week-cell,
+      .corner {
+        font-size: 7.5px;
+        padding: 4px 2px;
+      }
+
+      .today-line::before {
+        font-size: 7px;
+        min-width: 52px;
+        padding: 2px 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="topbar" aria-label="Project heading">
+      <div>
+        <h1>New POS Software OISHI &amp; FOA</h1>
+        <p class="subtitle">Dynamic Project Timeline · Weekly Gantt View · Project Management (Mar - Dec 26)</p>
+      </div>
+      <div class="controls">
+        <label for="currentDate">ตรวจสถานะจากวันที่</label>
+        <div class="control-actions">
+          <input id="currentDate" type="date">
+          <button id="exportPdf" class="export-button" type="button">Export PDF</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-hero" aria-live="polite" aria-label="Overall project progress">
+      <div>
+        <p class="eyebrow">Overall Project Progress</p>
+        <h2 id="heroTitle">Project completion as of today</h2>
+        <ul id="heroBullets" class="hero-bullets"></ul>
+      </div>
+      <div class="hero-meter">
+        <div class="hero-label">Completed</div>
+        <div id="heroPercent" class="hero-percent">0%</div>
+        <div class="hero-track">
+          <div id="heroFill" class="hero-fill"></div>
+        </div>
+        <div id="heroMeta" class="hero-meta">-</div>
+      </div>
+    </section>
+
+    <section class="dashboard-snapshot" aria-label="Dashboard snapshot">
+      <div class="metric-card">
+        <p class="metric-label">Days Passed</p>
+        <p id="daysPassed" class="metric-value">-</p>
+        <p id="daysPassedNote" class="metric-note">-</p>
+      </div>
+      <div class="metric-card">
+        <p class="metric-label">Days Remaining</p>
+        <p id="daysRemaining" class="metric-value">-</p>
+        <p id="daysRemainingNote" class="metric-note">-</p>
+      </div>
+      <div class="metric-card">
+        <p class="metric-label">Current Task</p>
+        <p id="currentTaskMetric" class="metric-value">-</p>
+        <p id="currentTaskNote" class="metric-note">-</p>
+      </div>
+      <div class="track-card">
+        <p class="section-label">Track Status</p>
+        <div id="trackStatus" class="track-pill">On Track</div>
+        <p id="trackStatusNote" class="metric-note">-</p>
+      </div>
+      <div class="milestone-card">
+        <p class="section-label">Upcoming Milestones</p>
+        <ul id="milestoneList" class="milestone-list"></ul>
+      </div>
+    </section>
+
+    <section class="status-card" aria-live="polite">
+      <div class="status-main">
+        <p class="eyebrow">Current Process</p>
+        <h2 id="currentStage" class="stage-name">-</h2>
+        <div id="currentStatePill" class="current-state-pill">-</div>
+        <p id="currentRange" class="stage-range">-</p>
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span>Overall This Task Process</span>
+            <span id="currentProgress">0%</span>
+          </div>
+          <div class="progress-track">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+        </div>
+      </div>
+      <div class="status-next">
+        <p class="eyebrow">Next Milestone</p>
+        <h3 id="nextStage" class="next-name">-</h3>
+        <p id="nextCopy" class="next-copy">-</p>
+      </div>
+    </section>
+
+    <section class="summary-panel" aria-label="Project state summary">
+      <div class="summary-heading">
+        <h2>Progress Summary by State</h2>
+        <p id="overallSummary">-</p>
+      </div>
+      <div class="summary-scroll">
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th>State</th>
+              <th>ช่วงเวลา</th>
+              <th>สถานะตอนนี้</th>
+              <th>ใช้เวลา</th>
+              <th>% ของภาพรวม</th>
+            </tr>
+          </thead>
+          <tbody id="summaryRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="legend">
+      <span style="color: var(--done)"><i class="dot"></i>เสร็จแล้ว</span>
+      <span style="color: var(--active)"><i class="dot"></i>กำลังดำเนินการ</span>
+      <span style="color: var(--future)"><i class="dot"></i>รอดำเนินการ</span>
+      <span style="color: var(--today)"><i class="dot"></i>Today Marker</span>
+    </div>
+
+    <div class="type-legend" aria-label="Task type legend">
+      <span class="type-item"><i class="swatch" style="--swatch: #77c56b"></i>Kickoff / Infra</span>
+      <span class="type-item"><i class="swatch" style="--swatch: #ffe86a"></i>Requirement</span>
+      <span class="type-item"><i class="swatch" style="--swatch: #7048c9"></i>Development</span>
+      <span class="type-item"><i class="swatch" style="--swatch: #9fc7ff"></i>Testing</span>
+      <span class="type-item"><i class="swatch" style="--swatch: #7ce0cc"></i>Training</span>
+      <span class="type-item"><i class="swatch" style="--swatch: #ffc8d2"></i>Go-live</span>
+    </div>
+
+    <section class="timeline-card" aria-label="Project timeline">
+      <div class="timeline-toolbar">
+        <div>
+          <h2>Weekly Gantt Chart</h2>
+          <p>แต่ละเดือนแบ่งเป็น 4 Week เพื่อให้เห็นตำแหน่งวันที่ปัจจุบันบนแผนงาน</p>
+        </div>
+        <div id="todayChip" class="today-chip">Today</div>
+      </div>
+      <div class="timeline-scroll">
+        <div class="gantt">
+          <div id="ganttHeader" class="gantt-header"></div>
+          <div id="ganttBody" class="gantt-body"></div>
+        </div>
+      </div>
+      <div class="footer">Project Management (Mar - Dec 26)</div>
+    </section>
+  </main>
+
+  <script>
+    const stages = [
+      {
+        title: "1. Initial Project",
+        start: "2026-03-11",
+        end: "2026-03-11",
+        color: "#6bbf59",
+        tasks: [
+          { title: "Project Kick Off 11-Mar-26", start: "2026-03-11", end: "2026-03-11", color: "#6bbf59" }
+        ]
+      },
+      {
+        title: "2. Business Requirement (1 Mar-11 May 2026)",
+        start: "2026-03-01",
+        end: "2026-05-11",
+        color: "#7a5de8",
+        tasks: [
+          { title: "S01- Memo & Masterdata", start: "2026-03-01", end: "2026-04-15", color: "#ffe86a" },
+          { title: "S01- Business Design Restaurant Type", start: "2026-03-15", end: "2026-05-11", color: "#d8c8ff", lane: 2 }
+        ]
+      },
+      {
+        title: "3. Program Development (23 Feb-30 Sep 2026)",
+        start: "2026-02-23",
+        end: "2026-09-30",
+        color: "#7048c9",
+        tasks: [
+          { title: "S01- Server Diagram", start: "2026-02-23", end: "2026-03-31", color: "#77c56b" },
+          { title: "S02-System Design and Configuration POS (Shabushi)+ (RM,KK,BTR,CV,VP)+ (BF, BFX, ETR, ETRX)", start: "2026-04-01", end: "2026-06-30", color: "#ffe86a" },
+          { title: "S03-CRM Bevfood", start: "2026-07-01", end: "2026-09-30", color: "#9fc7ff", lane: 2 },
+          { title: "S04-Requirement+Develop Middleware", start: "2026-07-01", end: "2026-08-31", color: "#9ee7ef", lane: 3 }
+        ]
+      },
+      {
+        title: "4. Testing (06 Jul - 23 Oct 2026)",
+        start: "2026-07-06",
+        end: "2026-10-23",
+        color: "#168bb5",
+        tasks: [
+          { title: "SIT+UAT#1 Testing POS Feature Send Bill", start: "2026-07-06", end: "2026-07-31", color: "#9fc7ff" },
+          { title: "SIT+UAT#1 Interface Middleware Feature Send Bill", start: "2026-10-01", end: "2026-10-12", color: "#9ee7ef" },
+          { title: "SIT+UAT Full Loop Testing POS to Middleware Feature Send Bill & Authorization (Excl. Log)", start: "2026-10-13", end: "2026-10-23", color: "#b6d4ff", lane: 2 }
+        ]
+      },
+      {
+        title: "5. Manual POS (21-30 Aug 2026)",
+        start: "2026-08-21",
+        end: "2026-08-30",
+        color: "#dc3d78",
+        tasks: [
+          { title: "Prepare User Manual", start: "2026-08-21", end: "2026-08-30", color: "#ffc8d2" }
+        ]
+      },
+      {
+        title: "6. Training (1-28 Oct 2026)",
+        start: "2026-10-01",
+        end: "2026-10-28",
+        color: "#2fb7a0",
+        tasks: [
+          { title: "Training", start: "2026-10-01", end: "2026-10-28", color: "#7ce0cc" }
+        ]
+      },
+      {
+        title: "7. Promote to Production (27 Oct 2026 - 31 May 2027)",
+        start: "2026-10-27",
+        end: "2027-05-31",
+        color: "#5146b6",
+        tasks: [
+          { title: "Cut-Over & Deploy Prep", start: "2026-10-27", end: "2026-10-28", color: "#9ee7ef" },
+          { title: "Deploy to Production POS 29Oct Middleware 30Oct", start: "2026-10-29", end: "2026-10-30", color: "#9fc7ff", lane: 2 },
+          { title: "Pilot (5 Stores) (SB)", start: "2026-11-01", end: "2026-11-30", color: "#b6d4ff", lane: 2 },
+          { title: "Pilot Evaluation & Transition to Thai Bev Team", start: "2026-12-01", end: "2026-12-31", color: "#ffc8d2", lane: 2 }
+        ]
+      },
+      {
+        title: "8. Go-live (30 Apr - 31 May 2027)",
+        start: "2027-04-30",
+        end: "2027-05-31",
+        color: "#dc3d78",
+        tasks: []
+      }
+    ];
+
+    const months = [
+      { label: "Feb", month: 1 },
+      { label: "Mar", month: 2 },
+      { label: "Apr", month: 3 },
+      { label: "May", month: 4 },
+      { label: "Jun", month: 5 },
+      { label: "Jul", month: 6 },
+      { label: "Aug", month: 7 },
+      { label: "Sep", month: 8 },
+      { label: "Oct", month: 9 },
+      { label: "Nov", month: 10 },
+      { label: "Dec", month: 11 }
+    ];
+
+    const chartStart = new Date("2026-02-01T00:00:00");
+    const chartEnd = new Date("2026-12-31T00:00:00");
+    const weekWidth = 54;
+    const labelWidth = 250;
+    const oneDay = 24 * 60 * 60 * 1000;
+    const dateInput = document.getElementById("currentDate");
+    const summaryRows = document.getElementById("summaryRows");
+    const overallSummary = document.getElementById("overallSummary");
+    const ganttHeader = document.getElementById("ganttHeader");
+    const ganttBody = document.getElementById("ganttBody");
+    const todayChip = document.getElementById("todayChip");
+    const heroTitle = document.getElementById("heroTitle");
+    const heroBullets = document.getElementById("heroBullets");
+    const heroPercent = document.getElementById("heroPercent");
+    const heroFill = document.getElementById("heroFill");
+    const heroMeta = document.getElementById("heroMeta");
+    const exportPdf = document.getElementById("exportPdf");
+    const daysPassed = document.getElementById("daysPassed");
+    const daysPassedNote = document.getElementById("daysPassedNote");
+    const daysRemaining = document.getElementById("daysRemaining");
+    const daysRemainingNote = document.getElementById("daysRemainingNote");
+    const currentTaskMetric = document.getElementById("currentTaskMetric");
+    const currentTaskNote = document.getElementById("currentTaskNote");
+    const trackStatus = document.getElementById("trackStatus");
+    const trackStatusNote = document.getElementById("trackStatusNote");
+    const milestoneList = document.getElementById("milestoneList");
+
+    const formatter = new Intl.DateTimeFormat("th-TH", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    });
+
+    const shortFormatter = new Intl.DateTimeFormat("th-TH", {
+      day: "numeric",
+      month: "short"
+    });
+
+    function toDate(value) {
+      return new Date(`${value}T00:00:00`);
+    }
+
+    function dateValue(date) {
+      return date.toISOString().slice(0, 10);
+    }
+
+    function clampDate(date, min, max) {
+      if (date < min) return min;
+      if (date > max) return max;
+      return date;
+    }
+
+    function formatRange(item) {
+      return `${formatter.format(toDate(item.start))} - ${formatter.format(toDate(item.end))}`;
+    }
+
+    function durationDays(item) {
+      return Math.round((toDate(item.end) - toDate(item.start)) / oneDay) + 1;
+    }
+
+    function getOverallRange() {
+      const starts = stages.map(stage => toDate(stage.start).getTime());
+      const ends = stages.map(stage => toDate(stage.end).getTime());
+      return {
+        start: new Date(Math.min(...starts)),
+        end: new Date(Math.max(...ends))
+      };
+    }
+
+    function getState(item, current) {
+      const start = toDate(item.start);
+      const end = toDate(item.end);
+      if (current < start) return "future";
+      if (current > end) return "done";
+      return "active";
+    }
+
+    function getStateLabel(state) {
+      return {
+        done: "เสร็จแล้ว",
+        active: "กำลังดำเนินการ",
+        future: "รอดำเนินการ"
+      }[state] || state;
+    }
+
+    function getProgress(item, current) {
+      const start = toDate(item.start);
+      const end = toDate(item.end);
+      if (current < start) return 0;
+      if (current > end) return 100;
+      const total = Math.max(oneDay, end - start + oneDay);
+      const elapsed = current - start + oneDay;
+      return Math.min(100, Math.max(0, Math.round((elapsed / total) * 100)));
+    }
+
+    function getOverallProgress(current) {
+      const overall = getOverallRange();
+      const totalDays = Math.round((overall.end - overall.start) / oneDay) + 1;
+      let completedDays = 0;
+
+      if (current >= overall.start) {
+        const clampedCurrent = clampDate(current, overall.start, overall.end);
+        completedDays = Math.round((clampedCurrent - overall.start) / oneDay) + 1;
+      }
+
+      const percent = Math.min(100, Math.max(0, (completedDays / totalDays) * 100));
+      return { ...overall, totalDays, completedDays, percent };
+    }
+
+    function findCurrentStage(current) {
+      const active = stages.find(stage => getState(stage, current) === "active");
+      if (active) return active;
+      const upcoming = stages.find(stage => getState(stage, current) === "future");
+      return upcoming || stages[stages.length - 1];
+    }
+
+    function findNextStage(current, currentStage) {
+      return stages.find(stage => toDate(stage.start) > current && stage !== currentStage);
+    }
+
+    function findUpcomingMilestones(current, limit = 2) {
+      return stages
+        .flatMap(stage => [
+          { title: `${stage.title} starts`, date: toDate(stage.start) },
+          ...stage.tasks.map(task => ({ title: task.title, date: toDate(task.start) }))
+        ])
+        .filter(item => item.date >= current)
+        .sort((a, b) => a.date - b.date)
+        .filter((item, index, list) => {
+          const key = `${dateValue(item.date)}-${item.title}`;
+          return list.findIndex(candidate => `${dateValue(candidate.date)}-${candidate.title}` === key) === index;
+        })
+        .slice(0, limit);
+    }
+
+    function getTrackStatus(overallProgress, currentStage, current) {
+      const currentProgress = getProgress(currentStage, current);
+      const remainingDays = Math.max(0, overallProgress.totalDays - overallProgress.completedDays);
+      const isAtRisk = remainingDays <= 45 && overallProgress.percent < 90;
+      return {
+        label: isAtRisk ? "At Risk" : "On Track",
+        note: isAtRisk
+          ? "ใกล้วันสิ้นสุดโครงการ ควรตรวจ dependency และ milestone ถัดไป"
+          : `Current task progress ${currentProgress}% และ timeline ยังอยู่ในช่วงที่กำหนด`,
+        atRisk: isAtRisk
+      };
+    }
+
+    function weekOfMonth(date) {
+      if (date.getDate() <= 7) return 1;
+      if (date.getDate() <= 14) return 2;
+      if (date.getDate() <= 21) return 3;
+      return 4;
+    }
+
+    function gridColumnForDate(date, isEnd = false) {
+      const clamped = clampDate(date, chartStart, chartEnd);
+      const monthIndex = months.findIndex(item => item.month === clamped.getMonth());
+      if (monthIndex < 0) return isEnd ? 45 : 1;
+      const weekIndex = weekOfMonth(clamped) - 1;
+      return monthIndex * 4 + weekIndex + 1 + (isEnd ? 1 : 0);
+    }
+
+    function visibleOnChart(item) {
+      const start = toDate(item.start);
+      const end = toDate(item.end);
+      return end >= chartStart && start <= chartEnd;
+    }
+
+    function renderHeader() {
+      ganttHeader.innerHTML = '<div class="corner">Process / Weekly Timeline</div>';
+      months.forEach((month, index) => {
+        const monthCell = document.createElement("div");
+        monthCell.className = "month-cell";
+        monthCell.style.gridColumn = `${index * 4 + 2} / span 4`;
+        monthCell.textContent = `${month.label} 2026`;
+        ganttHeader.appendChild(monthCell);
+      });
+
+      months.forEach((month, monthIndex) => {
+        for (let week = 1; week <= 4; week += 1) {
+          const weekCell = document.createElement("div");
+          weekCell.className = "week-cell";
+          weekCell.style.gridColumn = `${monthIndex * 4 + week + 1}`;
+          weekCell.textContent = `W${week}`;
+          ganttHeader.appendChild(weekCell);
+        }
+      });
+    }
+
+    function createBar(item, state, className = "") {
+      const startColumn = gridColumnForDate(toDate(item.start));
+      const endColumn = Math.max(startColumn + 1, gridColumnForDate(toDate(item.end), true));
+      const bar = document.createElement("div");
+      bar.className = `bar ${className} ${state}`;
+      bar.style.gridColumn = `${startColumn + 1} / ${endColumn + 1}`;
+      bar.style.setProperty("--lane", item.lane || 1);
+      bar.style.setProperty("--bar-color", item.color);
+      bar.style.setProperty("--stage-color", item.color);
+      const text = document.createElement("span");
+      text.className = "bar-text";
+      text.textContent = item.title;
+      bar.appendChild(text);
+      bar.title = `${item.title} (${formatRange(item)})`;
+      return bar;
+    }
+
+    function renderGantt(current) {
+      ganttBody.innerHTML = "";
+
+      const currentColumn = gridColumnForDate(current);
+      const todayLine = document.createElement("div");
+      todayLine.className = "today-line";
+      todayLine.dataset.label = `Today ${shortFormatter.format(current)}`;
+      todayLine.style.setProperty("--today-left", `${labelWidth + ((currentColumn - 1) * weekWidth) + (weekWidth / 2)}px`);
+      ganttBody.appendChild(todayLine);
+
+      stages.forEach(stage => {
+        const row = document.createElement("article");
+        const state = getState(stage, current);
+        const maxLane = Math.max(2, ...stage.tasks.map(task => (task.lane || 1) + 1));
+        row.className = "gantt-row";
+        row.style.gridTemplateRows = `repeat(${maxLane}, minmax(40px, auto))`;
+
+        const label = document.createElement("div");
+        label.className = `row-label ${state}`;
+        label.textContent = stage.title;
+        if (state === "active") {
+          const tag = document.createElement("span");
+          tag.className = "now-tag";
+          tag.textContent = "Today";
+          label.appendChild(tag);
+        }
+        row.appendChild(label);
+
+        if (visibleOnChart(stage)) {
+          const stageBar = createBar(stage, state, "stage");
+          stageBar.style.setProperty("--lane", 1);
+          row.appendChild(stageBar);
+        }
+
+        stage.tasks.filter(visibleOnChart).forEach(task => {
+          const taskState = getState(task, current);
+          row.appendChild(createBar({ ...task, lane: (task.lane || 1) + 1 }, taskState));
+        });
+
+        ganttBody.appendChild(row);
+      });
+    }
+
+    function renderSummary(current) {
+      const overall = getOverallRange();
+      const overallDays = Math.round((overall.end - overall.start) / oneDay) + 1;
+      summaryRows.innerHTML = "";
+      overallSummary.textContent = `ภาพรวม ${formatter.format(overall.start)} - ${formatter.format(overall.end)} · ${overallDays} วัน`;
+
+      stages.forEach(stage => {
+        const state = getState(stage, current);
+        const days = durationDays(stage);
+        const percent = (days / overallDays) * 100;
+        const tr = document.createElement("tr");
+        tr.className = state === "active" ? "is-active" : "";
+        tr.innerHTML = `
+          <td><span class="summary-title">${stage.title}</span></td>
+          <td>${formatRange(stage)}</td>
+          <td><span class="summary-state ${state}">${getStateLabel(state)}</span></td>
+          <td>${days.toLocaleString("th-TH")} วัน</td>
+          <td>
+            <div class="summary-progress">
+              <div class="summary-track">
+                <div class="summary-fill ${state}" style="--percent: ${percent.toFixed(2)}%"></div>
+              </div>
+              <span class="summary-value">${percent.toFixed(1)}%</span>
+            </div>
+          </td>
+        `;
+        summaryRows.appendChild(tr);
+      });
+    }
+
+    function renderSnapshot(current, currentStage, overallProgress) {
+      const remaining = Math.max(0, overallProgress.totalDays - overallProgress.completedDays);
+      const currentTaskProgress = getProgress(currentStage, current);
+      const track = getTrackStatus(overallProgress, currentStage, current);
+      const milestones = findUpcomingMilestones(current, 2);
+
+      daysPassed.textContent = overallProgress.completedDays.toLocaleString("th-TH");
+      daysPassedNote.textContent = `จากทั้งหมด ${overallProgress.totalDays.toLocaleString("th-TH")} วัน`;
+      daysRemaining.textContent = remaining.toLocaleString("th-TH");
+      daysRemainingNote.textContent = `ถึง ${formatter.format(overallProgress.end)}`;
+      currentTaskMetric.textContent = `${currentTaskProgress}%`;
+      currentTaskNote.textContent = currentStage.title;
+      trackStatus.textContent = track.label;
+      trackStatus.className = `track-pill ${track.atRisk ? "at-risk" : ""}`;
+      trackStatusNote.textContent = track.note;
+      milestoneList.innerHTML = milestones.map(item => `
+        <li>
+          <span class="milestone-date">${shortFormatter.format(item.date)}</span>
+          <span>${item.title}</span>
+        </li>
+      `).join("");
+    }
+
+    function renderStatus() {
+      const current = toDate(dateInput.value);
+      const currentStage = findCurrentStage(current);
+      const nextStage = findNextStage(current, currentStage);
+      const progress = getProgress(currentStage, current);
+      const overallProgress = getOverallProgress(current);
+      const currentStageState = getState(currentStage, current);
+      const currentStatePill = document.getElementById("currentStatePill");
+
+      const roundedOverall = Math.round(overallProgress.percent);
+      heroTitle.textContent = `The project is ${roundedOverall}% complete.`;
+      heroBullets.innerHTML = `
+        <li>${formatter.format(overallProgress.start)} ถึง ${formatter.format(overallProgress.end)}</li>
+        <li>ผ่านไปแล้ว ${overallProgress.completedDays.toLocaleString("th-TH")} จาก ${overallProgress.totalDays.toLocaleString("th-TH")} วัน</li>
+        <li>อยู่ใน ${currentStage.title}</li>
+      `;
+      heroPercent.textContent = `${overallProgress.percent.toFixed(1)}%`;
+      heroFill.style.width = `${overallProgress.percent}%`;
+      heroMeta.textContent = `As of ${formatter.format(current)}`;
+      renderSnapshot(current, currentStage, overallProgress);
+
+      document.getElementById("currentStage").textContent = currentStage.title;
+      currentStatePill.className = `current-state-pill ${currentStageState}`;
+      currentStatePill.textContent = `Today Is In Task: ${getStateLabel(currentStageState)}`;
+      document.getElementById("currentRange").textContent = formatRange(currentStage);
+      document.getElementById("currentProgress").textContent = `${progress}%`;
+      document.getElementById("progressFill").style.width = `${progress}%`;
+      todayChip.textContent = `Today: ${formatter.format(current)} · ${currentStage.title}`;
+
+      if (nextStage) {
+        const days = Math.ceil((toDate(nextStage.start) - current) / oneDay);
+        document.getElementById("nextStage").textContent = nextStage.title;
+        document.getElementById("nextCopy").textContent = `เริ่ม ${formatter.format(toDate(nextStage.start))} หรืออีก ${days} วัน`;
+      } else {
+        document.getElementById("nextStage").textContent = "Project Complete";
+        document.getElementById("nextCopy").textContent = "ไม่มีขั้นตอนถัดไปใน timeline นี้";
+      }
+
+      renderSummary(current);
+      renderGantt(current);
+    }
+
+    renderHeader();
+    dateInput.value = dateValue(new Date());
+    dateInput.addEventListener("change", renderStatus);
+    exportPdf.addEventListener("click", () => window.print());
+    renderStatus();
+  </script>
+</body>
+</html>
