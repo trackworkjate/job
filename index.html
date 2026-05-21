@@ -78,13 +78,6 @@
       gap: 7px;
     }
 
-    .control-actions {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 8px;
-      align-items: center;
-    }
-
     .controls label {
       color: var(--muted);
       font-size: 12px;
@@ -101,28 +94,6 @@
       font-size: 14px;
       padding: 10px 12px;
       box-shadow: 0 1px 0 rgba(20, 32, 54, .05);
-    }
-
-    .export-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 42px;
-      border: 0;
-      border-radius: 8px;
-      background: #5146b6;
-      color: #fff;
-      cursor: pointer;
-      font: inherit;
-      font-size: 12px;
-      font-weight: 800;
-      padding: 0 12px;
-      white-space: nowrap;
-      box-shadow: 0 10px 24px rgba(81, 70, 182, .18);
-    }
-
-    .export-button:hover {
-      background: #4338a6;
     }
 
     .status-card {
@@ -872,129 +843,6 @@
         --week-width: 50px;
       }
 
-      .control-actions {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @page {
-      size: A3 landscape;
-      margin: 8mm;
-    }
-
-    @media print {
-      :root {
-        --label-width: 190px;
-        --week-width: 22px;
-      }
-
-      body {
-        background: #fff;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-
-      .shell {
-        width: 100%;
-        margin: 0;
-      }
-
-      .controls,
-      .summary-panel,
-      .legend,
-      .type-legend {
-        display: none;
-      }
-
-      .topbar,
-      .project-hero,
-      .dashboard-snapshot,
-      .status-card,
-      .timeline-card {
-        break-inside: avoid;
-        box-shadow: none;
-      }
-
-      .project-hero {
-        grid-template-columns: 1fr 200px;
-        padding: 14px 16px;
-      }
-
-      .project-hero h2 {
-        font-size: 28px;
-      }
-
-      .hero-percent {
-        font-size: 46px;
-      }
-
-      .status-card {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .dashboard-snapshot {
-        grid-template-columns: repeat(5, 1fr);
-        gap: 6px;
-      }
-
-      .metric-card,
-      .track-card,
-      .milestone-card {
-        padding: 8px;
-        box-shadow: none;
-      }
-
-      .metric-value {
-        font-size: 18px;
-      }
-
-      .metric-note,
-      .milestone-list li {
-        font-size: 7.5px;
-      }
-
-      .timeline-scroll {
-        overflow: visible;
-      }
-
-      .gantt {
-        min-width: calc(var(--label-width) + (44 * var(--week-width)));
-      }
-
-      .gantt-header,
-      .gantt-row {
-        grid-template-columns: var(--label-width) repeat(44, var(--week-width));
-      }
-
-      .bar {
-        font-size: 7px;
-        min-height: 22px;
-        margin: 3px 1px;
-        padding: 3px 4px;
-        box-shadow: none;
-      }
-
-      .bar.stage {
-        font-size: 7.5px;
-      }
-
-      .row-label {
-        font-size: 8px;
-        padding: 6px;
-      }
-
-      .month-cell,
-      .week-cell,
-      .corner {
-        font-size: 7.5px;
-        padding: 4px 2px;
-      }
-
-      .today-line::before {
-        font-size: 7px;
-        min-width: 52px;
-        padding: 2px 4px;
-      }
     }
   </style>
 </head>
@@ -1007,10 +855,7 @@
       </div>
       <div class="controls">
         <label for="currentDate">ตรวจสถานะจากวันที่</label>
-        <div class="control-actions">
-          <input id="currentDate" type="date">
-          <button id="exportPdf" class="export-button" type="button">Export PDF</button>
-        </div>
+        <input id="currentDate" type="date">
       </div>
     </section>
 
@@ -1248,7 +1093,6 @@
     const heroPercent = document.getElementById("heroPercent");
     const heroFill = document.getElementById("heroFill");
     const heroMeta = document.getElementById("heroMeta");
-    const exportPdf = document.getElementById("exportPdf");
     const daysPassed = document.getElementById("daysPassed");
     const daysPassedNote = document.getElementById("daysPassedNote");
     const daysRemaining = document.getElementById("daysRemaining");
@@ -1574,7 +1418,6 @@
     renderHeader();
     dateInput.value = dateValue(new Date());
     dateInput.addEventListener("change", renderStatus);
-    exportPdf.addEventListener("click", () => window.print());
     renderStatus();
   </script>
 </body>

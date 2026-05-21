@@ -18,7 +18,6 @@ The dashboard reads the current date from the browser, calculates overall projec
 - Today marker on the chart
 - Blinking current task label
 - Task type legend
-- Export to PDF in landscape layout
 
 ## Files
 
@@ -30,17 +29,6 @@ The dashboard reads the current date from the browser, calculates overall projec
 Open `index.html` in a browser.
 
 To test a different project date, change the date picker in the top-right corner. The dashboard will update automatically.
-
-## Export To PDF
-
-Click **Export PDF** in the top-right corner.
-
-Recommended print settings:
-
-- Layout: Landscape
-- Paper size: A3
-- Background graphics: Enabled
-- Scale: Fit to page, or 70-90% if needed
 
 ## GitHub Pages Deployment
 
