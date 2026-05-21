@@ -290,52 +290,6 @@
       box-shadow: none;
     }
 
-    .subtask-panel {
-      margin-bottom: 14px;
-      background: rgba(255, 255, 255, .96);
-      border: 1px solid rgba(216, 223, 236, .95);
-      border-radius: 10px;
-      box-shadow: var(--shadow);
-      padding: 14px;
-    }
-
-    .subtask-panel h2 {
-      margin: 0 0 10px;
-      color: var(--ink);
-      font-size: 16px;
-      font-weight: 800;
-    }
-
-    .subtask-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .subtask-card {
-      display: grid;
-      gap: 6px;
-      min-width: 0;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #f8fbff;
-      padding: 10px;
-    }
-
-    .subtask-stage {
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 800;
-      line-height: 1.25;
-      overflow-wrap: anywhere;
-    }
-
-    .subtask-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
     .subtask-pill,
     .subtask-code {
       display: inline-flex;
@@ -591,15 +545,49 @@
       align-items: center;
     }
 
-    .summary-subtasks {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      min-width: 180px;
-    }
-
     .summary-track {
       height: 10px;
+    }
+
+    .summary-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font: inherit;
+      padding: 0;
+      text-align: left;
+    }
+
+    .summary-chevron {
+      flex: 0 0 auto;
+      width: 18px;
+      color: var(--active);
+      font-size: 12px;
+      font-weight: 800;
+      transition: transform .18s ease;
+    }
+
+    .summary-toggle[aria-expanded="true"] .summary-chevron {
+      transform: rotate(90deg);
+    }
+
+    .summary-subtask-row td {
+      background: #fbfdff;
+      border-bottom-color: #e8eef7;
+      font-size: 12px;
+    }
+
+    .summary-subtask-name {
+      padding-left: 34px !important;
+    }
+
+    .summary-subtask-name .subtask-pill {
+      margin-right: 8px;
     }
 
     .summary-fill {
@@ -926,10 +914,6 @@
         --week-width: 50px;
       }
 
-      .subtask-grid {
-        grid-template-columns: 1fr;
-      }
-
     }
   </style>
 </head>
@@ -1022,7 +1006,6 @@
           <thead>
             <tr>
               <th>State</th>
-              <th>Subtasks</th>
               <th>ช่วงเวลา</th>
               <th>สถานะตอนนี้</th>
               <th>ใช้เวลา</th>
@@ -1049,11 +1032,6 @@
       <span class="type-item"><i class="swatch" style="--swatch: #7ce0cc"></i>Training</span>
       <span class="type-item"><i class="swatch" style="--swatch: #ffc8d2"></i>Go-live</span>
     </div>
-
-    <section class="subtask-panel" aria-label="Subtask summary">
-      <h2>Subtask Summary</h2>
-      <div id="subtaskGrid" class="subtask-grid"></div>
-    </section>
 
     <section class="timeline-card" aria-label="Project timeline">
       <div class="timeline-toolbar">
@@ -1195,7 +1173,7 @@
     const trackStatus = document.getElementById("trackStatus");
     const trackStatusNote = document.getElementById("trackStatusNote");
     const milestoneList = document.getElementById("milestoneList");
-    const subtaskGrid = document.getElementById("subtaskGrid");
+    const expandedSummaryStages = new Set();
 
     const formatter = new Intl.DateTimeFormat("th-TH", {
       day: "2-digit",
@@ -1438,22 +1416,18 @@
         const state = getState(stage, current);
         const days = durationDays(stage);
         const percent = (days / overallDays) * 100;
-        const subtaskHtml = stage.tasks.some(task => getTaskCode(task))
-          ? stage.tasks
-            .filter(task => getTaskCode(task))
-            .map(task => {
-              const code = getTaskCode(task);
-              const label = task.title.replace(new RegExp(`^${code}[-\\s]*`, "i"), "");
-              const textColor = task.color === "#ffe86a" || task.color === "#d8c8ff" ? "#182033" : "#fff";
-              return `<span class="subtask-pill" style="background:${task.color};color:${textColor}" title="${task.title} (${formatRange(task)})">${code} ${label}</span>`;
-            })
-            .join("")
-          : '<span class="metric-note">-</span>';
+        const subtasks = stage.tasks.filter(task => getTaskCode(task));
+        const isExpandable = subtasks.length > 0;
+        const isExpanded = expandedSummaryStages.has(stage.title);
         const tr = document.createElement("tr");
         tr.className = state === "active" ? "is-active" : "";
         tr.innerHTML = `
-          <td><span class="summary-title">${stage.title}</span></td>
-          <td><div class="summary-subtasks">${subtaskHtml}</div></td>
+          <td>
+            <button class="summary-toggle" type="button" aria-expanded="${isExpanded}" ${isExpandable ? "" : "disabled"}>
+              <span class="summary-chevron">${isExpandable ? "›" : ""}</span>
+              <span class="summary-title">${stage.title}</span>
+            </button>
+          </td>
           <td>${formatRange(stage)}</td>
           <td><span class="summary-state ${state}">${getStateLabel(state)}</span></td>
           <td>${days.toLocaleString("th-TH")} วัน</td>
@@ -1467,40 +1441,49 @@
           </td>
         `;
         summaryRows.appendChild(tr);
+
+        if (isExpandable) {
+          tr.querySelector(".summary-toggle").addEventListener("click", () => {
+            if (expandedSummaryStages.has(stage.title)) {
+              expandedSummaryStages.delete(stage.title);
+            } else {
+              expandedSummaryStages.add(stage.title);
+            }
+            renderSummary(current);
+          });
+        }
+
+        if (isExpanded) {
+          subtasks.forEach(task => {
+            const code = getTaskCode(task);
+            const label = task.title.replace(new RegExp(`^${code}[-\\s]*`, "i"), "");
+            const textColor = task.color === "#ffe86a" || task.color === "#d8c8ff" ? "#182033" : "#fff";
+            const taskState = getState(task, current);
+            const taskDays = durationDays(task);
+            const taskProgress = getProgress(task, current);
+            const subtaskRow = document.createElement("tr");
+            subtaskRow.className = "summary-subtask-row";
+            subtaskRow.innerHTML = `
+              <td class="summary-subtask-name">
+                <span class="subtask-pill" style="background:${task.color};color:${textColor}">${code}</span>
+                ${label}
+              </td>
+              <td>${formatRange(task)}</td>
+              <td><span class="summary-state ${taskState}">${getStateLabel(taskState)}</span></td>
+              <td>${taskDays.toLocaleString("th-TH")} วัน</td>
+              <td>
+                <div class="summary-progress">
+                  <div class="summary-track">
+                    <div class="summary-fill ${taskState}" style="--percent: ${taskProgress}%"></div>
+                  </div>
+                  <span class="summary-value">${taskProgress}%</span>
+                </div>
+              </td>
+            `;
+            summaryRows.appendChild(subtaskRow);
+          });
+        }
       });
-    }
-
-    function renderSubtasks() {
-      subtaskGrid.innerHTML = "";
-
-      stages
-        .filter(stage => stage.tasks.some(task => getTaskCode(task)))
-        .forEach(stage => {
-          const card = document.createElement("article");
-          card.className = "subtask-card";
-
-          const title = document.createElement("div");
-          title.className = "subtask-stage";
-          title.textContent = stage.title;
-
-          const list = document.createElement("div");
-          list.className = "subtask-list";
-
-          stage.tasks
-            .filter(task => getTaskCode(task))
-            .forEach(task => {
-              const pill = document.createElement("span");
-              pill.className = "subtask-pill";
-              pill.style.background = task.color;
-              pill.style.color = task.color === "#ffe86a" || task.color === "#d8c8ff" ? "#182033" : "#fff";
-              pill.textContent = `${getTaskCode(task)} ${task.title.replace(new RegExp(`^${getTaskCode(task)}[-\\s]*`, "i"), "")}`;
-              pill.title = `${task.title} (${formatRange(task)})`;
-              list.appendChild(pill);
-            });
-
-          card.append(title, list);
-          subtaskGrid.appendChild(card);
-        });
     }
 
     function renderSnapshot(current, currentStage, overallProgress) {
@@ -1569,7 +1552,6 @@
     }
 
     renderHeader();
-    renderSubtasks();
     dateInput.value = dateValue(new Date());
     dateInput.addEventListener("change", renderStatus);
     renderStatus();
