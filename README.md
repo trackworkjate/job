@@ -15,6 +15,7 @@ The dashboard reads the current date from the browser, calculates overall projec
   - Track status
   - Upcoming milestones
 - Weekly Gantt chart with 4 weeks per month
+- Subtask summary and visible subtask badges such as S01, S02, S03, and S04
 - Today marker on the chart
 - Blinking current task label
 - Task type legend

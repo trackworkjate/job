@@ -290,6 +290,78 @@
       box-shadow: none;
     }
 
+    .subtask-panel {
+      margin-bottom: 14px;
+      background: rgba(255, 255, 255, .96);
+      border: 1px solid rgba(216, 223, 236, .95);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+
+    .subtask-panel h2 {
+      margin: 0 0 10px;
+      color: var(--ink);
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .subtask-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .subtask-card {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f8fbff;
+      padding: 10px;
+    }
+
+    .subtask-stage {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+
+    .subtask-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .subtask-pill,
+    .subtask-code {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--active);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .subtask-pill {
+      gap: 5px;
+      padding: 4px 8px;
+      font-size: 11px;
+    }
+
+    .subtask-code {
+      flex: 0 0 auto;
+      min-width: 30px;
+      padding: 3px 7px;
+      font-size: 10px;
+      line-height: 1;
+    }
+
     .type-item {
       display: inline-flex;
       align-items: center;
@@ -762,6 +834,10 @@
       -webkit-line-clamp: 2;
     }
 
+    .bar.has-code {
+      gap: 6px;
+    }
+
     .bar.stage {
       color: #fff;
       background: var(--stage-color, var(--purple));
@@ -841,6 +917,10 @@
       :root {
         --label-width: 210px;
         --week-width: 50px;
+      }
+
+      .subtask-grid {
+        grid-template-columns: 1fr;
       }
 
     }
@@ -961,6 +1041,11 @@
       <span class="type-item"><i class="swatch" style="--swatch: #7ce0cc"></i>Training</span>
       <span class="type-item"><i class="swatch" style="--swatch: #ffc8d2"></i>Go-live</span>
     </div>
+
+    <section class="subtask-panel" aria-label="Subtask summary">
+      <h2>Subtask Summary</h2>
+      <div id="subtaskGrid" class="subtask-grid"></div>
+    </section>
 
     <section class="timeline-card" aria-label="Project timeline">
       <div class="timeline-toolbar">
@@ -1102,6 +1187,7 @@
     const trackStatus = document.getElementById("trackStatus");
     const trackStatusNote = document.getElementById("trackStatusNote");
     const milestoneList = document.getElementById("milestoneList");
+    const subtaskGrid = document.getElementById("subtaskGrid");
 
     const formatter = new Intl.DateTimeFormat("th-TH", {
       day: "2-digit",
@@ -1130,6 +1216,12 @@
 
     function formatRange(item) {
       return `${formatter.format(toDate(item.start))} - ${formatter.format(toDate(item.end))}`;
+    }
+
+    function getTaskCode(task) {
+      if (task.code) return task.code;
+      const match = task.title.match(/\b(S\d{2})\b/i);
+      return match ? match[1].toUpperCase() : "";
     }
 
     function durationDays(item) {
@@ -1275,9 +1367,17 @@
       bar.style.setProperty("--lane", item.lane || 1);
       bar.style.setProperty("--bar-color", item.color);
       bar.style.setProperty("--stage-color", item.color);
+      const code = getTaskCode(item);
+      if (code) {
+        bar.classList.add("has-code");
+        const codeEl = document.createElement("span");
+        codeEl.className = "subtask-code";
+        codeEl.textContent = code;
+        bar.appendChild(codeEl);
+      }
       const text = document.createElement("span");
       text.className = "bar-text";
-      text.textContent = item.title;
+      text.textContent = code ? item.title.replace(new RegExp(`^${code}[-\\s]*`, "i"), "") : item.title;
       bar.appendChild(text);
       bar.title = `${item.title} (${formatRange(item)})`;
       return bar;
@@ -1350,6 +1450,39 @@
       });
     }
 
+    function renderSubtasks() {
+      subtaskGrid.innerHTML = "";
+
+      stages
+        .filter(stage => stage.tasks.some(task => getTaskCode(task)))
+        .forEach(stage => {
+          const card = document.createElement("article");
+          card.className = "subtask-card";
+
+          const title = document.createElement("div");
+          title.className = "subtask-stage";
+          title.textContent = stage.title;
+
+          const list = document.createElement("div");
+          list.className = "subtask-list";
+
+          stage.tasks
+            .filter(task => getTaskCode(task))
+            .forEach(task => {
+              const pill = document.createElement("span");
+              pill.className = "subtask-pill";
+              pill.style.background = task.color;
+              pill.style.color = task.color === "#ffe86a" || task.color === "#d8c8ff" ? "#182033" : "#fff";
+              pill.textContent = `${getTaskCode(task)} ${task.title.replace(new RegExp(`^${getTaskCode(task)}[-\\s]*`, "i"), "")}`;
+              pill.title = `${task.title} (${formatRange(task)})`;
+              list.appendChild(pill);
+            });
+
+          card.append(title, list);
+          subtaskGrid.appendChild(card);
+        });
+    }
+
     function renderSnapshot(current, currentStage, overallProgress) {
       const remaining = Math.max(0, overallProgress.totalDays - overallProgress.completedDays);
       const currentTaskProgress = getProgress(currentStage, current);
@@ -1416,6 +1549,7 @@
     }
 
     renderHeader();
+    renderSubtasks();
     dateInput.value = dateValue(new Date());
     dateInput.addEventListener("change", renderStatus);
     renderStatus();
